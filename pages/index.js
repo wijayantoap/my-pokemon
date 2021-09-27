@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import client from "../configs/apollo-client";
 import POKEMON_LIST from "../statics/pokemon-list";
 import PokemonCard from "../components/PokemonCard";
 import styled from "@emotion/styled";
 import Headroom from "react-headroom";
 
-const Container = styled.div`
+const Wrapper = styled.div`
+  background: url(https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png);
+`;
+
+const MoreButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+`;
+
+const CardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   z-index: 1;
-  background: url(https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png);
 `;
 
 const HeaderContainer = styled.header`
@@ -35,8 +44,7 @@ const Input = styled.input`
   box-shadow: none;
   width: 300px;
   padding: 8px 4px;
-  background: none 0% 0% / auto repeat scroll padding-box border-box
-    rgb(255, 255, 255);
+  background: none 0% 0% rgb(255, 255, 255);
 `;
 
 const SearchButton = styled.input`
@@ -50,10 +58,46 @@ const Title = styled.h2`
   margin-right: 20px;
 `;
 
+const MoreButton = styled.button`
+  background-color: #30a7d7;
+  border-radius: 4px;
+  color: white;
+  padding: 20px;
+  border: none;
+  margin: 0 auto;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #1b82b1;
+  }
+`;
+
 function Home({ data }) {
-  console.log(data.pokemons.nextOffset);
+  const [offset, setOffset] = useState(0);
+  const [pokemonsData, setPokemonsData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setOffset(data.pokemons.nextOffset);
+    setPokemonsData(data.pokemons.results);
+  }, [data]);
+
+  const getMoreData = async () => {
+    setLoading(true);
+    const { data } = await client.query({
+      query: POKEMON_LIST,
+      variables: { offset },
+    });
+
+    setOffset(data.pokemons.nextOffset);
+    setPokemonsData((prevState) => [...prevState, ...data.pokemons.results]);
+    setLoading(false);
+  };
+
+  if (!data) return <p>Something went wrong</p>;
+
   return (
-    <>
+    <Wrapper>
       <Headroom>
         <HeaderContainer>
           <Title>Pokémon Search</Title>
@@ -69,14 +113,21 @@ function Home({ data }) {
           </form>
         </HeaderContainer>
       </Headroom>
-      <Container>
-        {data.pokemons.results.map((pokemon, index) => (
+      <CardsContainer>
+        {pokemonsData?.map((pokemon, index) => (
           <div key={index}>
             <PokemonCard name={pokemon.name} image={pokemon.image} />
           </div>
         ))}
-      </Container>
-    </>
+      </CardsContainer>
+      <MoreButtonContainer>
+        {offset && (
+          <MoreButton onClick={getMoreData} disabled={loading}>
+            {loading ? "Loading..." : "Load More"}
+          </MoreButton>
+        )}
+      </MoreButtonContainer>
+    </Wrapper>
   );
 }
 

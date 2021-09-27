@@ -7,6 +7,7 @@ const Card = styled.div`
   transition: 0.5s;
   background-color: white;
   padding: 20px;
+  z-index: 1;
 
   &:hover {
     cursor: pointer;
