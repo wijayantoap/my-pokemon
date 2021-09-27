@@ -1,9 +1,11 @@
-import Head from 'next/head'
-import '../styles/globals.css'
+import { ApolloProvider } from "@apollo/client";
+import Head from "next/head";
+import client from "../configs/apollo-client";
+import "../styles/globals.css";
 
 export default function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <ApolloProvider client={client}>
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -13,7 +15,7 @@ export default function MyApp({ Component, pageProps }) {
         />
         <meta name="description" content="Description" />
         <meta name="keywords" content="Keywords" />
-        <title>Next.js PWA Example</title>
+        <title>My Pokemon</title>
 
         <link rel="manifest" href="/manifest.json" />
         <link
@@ -32,6 +34,6 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="theme-color" content="#317EFB" />
       </Head>
       <Component {...pageProps} />
-    </>
-  )
+    </ApolloProvider>
+  );
 }
