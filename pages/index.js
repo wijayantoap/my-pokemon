@@ -39,12 +39,13 @@ const InputContainer = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
+  max-width: 100%;
 `;
 
 const Input = styled.input`
   border-color: transparent;
   box-shadow: none;
-  width: 300px;
+  width: 260px;
   padding: 8px 4px;
   background: none 0% 0% rgb(255, 255, 255);
 `;
@@ -77,12 +78,13 @@ const MoreButton = styled.button`
 function Home({ data }) {
   const [offset, setOffset] = useState(0);
   const [pokemonsData, setPokemonsData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
     setOffset(data.pokemons.nextOffset);
     setPokemonsData(data.pokemons.results);
+    setLoading(false);
   }, [data]);
 
   const getData = async () => {
@@ -126,7 +128,7 @@ function Home({ data }) {
       <Headroom>
         <HeaderContainer>
           <Title>Pokémon Search</Title>
-          <form onSubmit={searchData}>
+          <form onSubmit={searchData} style={{ maxWidth: "100%" }}>
             <InputContainer>
               <Input
                 type="text"
@@ -159,7 +161,7 @@ function Home({ data }) {
           <h3>Loading...</h3>
         </Column>
       )}
-      {pokemonsData.length === 0 && (
+      {!loading && pokemonsData.length === 0 && (
         <Column>
           <h1>No Pokémon match your search</h1>
           <h3>Please search the exact name. eg: 'ditto'</h3>

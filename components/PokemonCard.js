@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
+import Link from "next/link";
 
 const Card = styled.div`
   margin: 20px;
@@ -27,10 +28,12 @@ const Name = styled.h3`
 
 export default function PokemonCard({ name, image }) {
   return (
-    <Card>
-      <StyledImage alt={`img-${name}`} src={image} width="253" height="253" />
-      <Name>{name}</Name>
-      <p>Owned: 0</p>
-    </Card>
+    <Link href={`/details/${name}`}>
+      <Card>
+        <StyledImage alt={`img-${name}`} src={image} width="253" height="253" />
+        <Name>{name}</Name>
+        <p>Owned: 0</p>
+      </Card>
+    </Link>
   );
 }
