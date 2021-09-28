@@ -133,8 +133,8 @@ function Home({ data }) {
               <Input
                 type="text"
                 name="pokename"
-                autocomplete="off"
-                spellcheck="false"
+                autoComplete="off"
+                spellCheck="false"
               ></Input>
               <SearchButton
                 type="submit"

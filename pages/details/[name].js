@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import client from "../../configs/apollo-client";
 import styled from "@emotion/styled";
 import POKEMON_NAME from "../../statics/pokemon-name";
@@ -40,12 +40,13 @@ const Types = styled.div`
 `;
 
 const Moves = styled.div`
-  background-color: #F2F2F2;
+  background-color: #f2f2f2;
   width: 100%;
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
-  color: 'white
+  color: gray;
+  text-align: center;
 `;
 
 const Capture = styled.div`
@@ -68,6 +69,61 @@ const Name = styled.h1`
 `;
 
 function Details({ data }) {
+  const [showNickname, setShowNickname] = useState(false);
+  const [lastNickname, setLastNickname] = useState("");
+  const [failed, setFailed] = useState(false);
+  const [owned, setOwned] = useState(0);
+  const [exists, setExists] = useState(false);
+  const [catching, setCatching] = useState(false);
+
+  useEffect(() => {
+    let pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
+    const totalOwned = pokemons.filter(
+      (pokemon) => pokemon.name === data.pokemon.name
+    ).length;
+    setOwned(totalOwned);
+  }, [data]);
+
+  const catchPokemon = () => {
+    if (!showNickname) {
+      setCatching(true);
+      setTimeout(() => {
+        const success = Math.random() > 0.5;
+        if (success) {
+          setShowNickname(true);
+          setFailed(false);
+        } else {
+          setFailed(true);
+        }
+        setCatching(false);
+      }, 1500);
+    }
+  };
+
+  const saveNickname = (e) => {
+    e.preventDefault();
+    const nickname = e.target.pokename.value;
+    if (nickname === "") return;
+
+    let pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
+    const poke = {
+      name: data.pokemon.name,
+      nickname,
+    };
+
+    let exists = pokemons.find((o) => o.nickname === nickname);
+    if (!exists) {
+      pokemons.push(poke);
+      setShowNickname(false);
+      setLastNickname(nickname);
+      setOwned((prevState) => prevState + 1);
+      setExists(false);
+      localStorage.setItem("pokemons", JSON.stringify(pokemons));
+    } else {
+      setExists(true);
+    }
+  };
+
   if (!data) return <p>Something went wrong</p>;
 
   return (
@@ -87,8 +143,30 @@ function Details({ data }) {
             height="253"
           />
           <Name>{data.pokemon.name}</Name>
-          <Capture>Catch</Capture>
-          <p>owned: 0</p>
+          {!showNickname && !catching && (
+            <Capture onClick={catchPokemon}>Catch</Capture>
+          )}
+          {catching && "Catching..."}
+          {failed && !catching && "Failed to catch!"}
+          {lastNickname &&
+            !failed &&
+            !showNickname &&
+            !catching &&
+            `${lastNickname} saved!`}
+          {exists && "Nickname already used!"}
+          {showNickname && (
+            <form onSubmit={saveNickname}>
+              <input
+                type="text"
+                placeholder="Give a nickname"
+                name="pokename"
+                autoComplete="off"
+                spellCheck="false"
+              />
+              <input type="submit" value="Save" id="save" />
+            </form>
+          )}
+          <p>owned: {owned}</p>
           <h2>Type</h2>
           <Row>
             {data.pokemon.types.map(({ type }) => (
