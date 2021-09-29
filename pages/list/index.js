@@ -63,6 +63,7 @@ function List() {
                 name={pokemon.name}
                 image={pokemon.image}
                 nickname={pokemon.nickname}
+                data={pokemon.data}
               />
             </div>
           ))}

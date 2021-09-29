@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 import { memo, useEffect, useState } from "react";
+import RadarChart from "./RadarChart";
 
 const Card = styled.div`
   margin: 20px;
@@ -30,7 +31,7 @@ const Name = styled.h3`
 const Action = styled.div`
   background-color: #f2f2f2;
   width: 100%;
-  margin-bottom: 10px;
+  margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
   color: gray;
@@ -42,7 +43,7 @@ const Action = styled.div`
   }
 `;
 
-const PokemonCard = ({ name, image, nickname }) => {
+const PokemonCard = ({ name, image, nickname, data }) => {
   const [owned, setOwned] = useState(0);
 
   useEffect(() => {
@@ -61,6 +62,7 @@ const PokemonCard = ({ name, image, nickname }) => {
         {nickname ? <p>{nickname}</p> : <p>Owned: {owned}</p>}
         {nickname && (
           <>
+            <RadarChart data={data} />
             <Link href={`/details/${name}`}>
               <Action>Visit</Action>
             </Link>

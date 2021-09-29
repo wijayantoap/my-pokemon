@@ -8,6 +8,7 @@ import Head from "next/head";
 import Headroom from "react-headroom";
 import Title from "../../components/Title";
 import Link from "next/link";
+import RadarChart from "../../components/RadarChart";
 
 const Wrapper = styled.div`
   background: url(https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png);
@@ -54,7 +55,7 @@ const Moves = styled.div`
 `;
 
 const Capture = styled.div`
-  background: #c4cf53;
+  background: ${(props) => (props.release ? "#E3350D" : "#c4cf53")};
   color: white;
   width: 100px;
   height: 40px;
@@ -62,6 +63,7 @@ const Capture = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  margin-bottom: 10px;
 
   &:hover {
     cursor: pointer;
@@ -75,6 +77,7 @@ const Name = styled.h1`
 function Details({ data }) {
   const [showNickname, setShowNickname] = useState(false);
   const [lastNickname, setLastNickname] = useState("");
+  const [lastData, setLastData] = useState([]);
   const [failed, setFailed] = useState(false);
   const [owned, setOwned] = useState(0);
   const [exists, setExists] = useState(false);
@@ -89,13 +92,23 @@ function Details({ data }) {
   }, [data]);
 
   const catchPokemon = () => {
-    if (!showNickname) {
+    if (lastData) {
+      setShowNickname(false);
+      setLastNickname("");
+      setLastData([]);
+    }
+    if (!showNickname && !catching) {
       setCatching(true);
       setTimeout(() => {
         const success = Math.random() > 0.5;
         if (success) {
           setShowNickname(true);
           setFailed(false);
+          const data = [];
+          for (let i = 0; i < 6; i++) {
+            data.push(Math.floor(Math.random() * 99));
+          }
+          setLastData(data);
         } else {
           setFailed(true);
         }
@@ -114,6 +127,7 @@ function Details({ data }) {
       name: data.pokemon.name,
       nickname,
       image: data.pokemon.sprites.front_default,
+      data: lastData,
     };
 
     let exists = pokemons.find((o) => o.nickname === nickname);
@@ -123,6 +137,7 @@ function Details({ data }) {
       setLastNickname(nickname);
       setOwned((prevState) => prevState + 1);
       setExists(false);
+      setLastData([]);
       localStorage.setItem("pokemons", JSON.stringify(pokemons));
     } else {
       setExists(true);
@@ -162,11 +177,14 @@ function Details({ data }) {
             height="253"
           />
           <Name>{data.pokemon.name}</Name>
-          {!showNickname && !catching && (
-            <Capture onClick={catchPokemon}>Catch</Capture>
-          )}
-          {catching && "Catching..."}
-          {failed && !catching && "Failed to catch!"}
+          <Capture onClick={catchPokemon} release={lastData.length > 0}>
+            {catching
+              ? "Catching..."
+              : lastData.length > 0
+              ? "Release"
+              : "Catch"}
+          </Capture>
+          {failed && !catching && <p>Failed to catch!</p>}
           {lastNickname &&
             !failed &&
             !showNickname &&
@@ -185,6 +203,7 @@ function Details({ data }) {
               <input type="submit" value="Save" id="save" />
             </form>
           )}
+          {lastData.length > 0 && <RadarChart data={lastData} />}
           <p>owned: {owned}</p>
           <h2>Type</h2>
           <Row>
