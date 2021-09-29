@@ -121,7 +121,7 @@ function Home({ data }) {
   return (
     <Wrapper>
       <Headroom>
-        <HeaderContainer role="header">
+        <HeaderContainer>
           <Title title="My Pokémon" href="/list" />
           <form onSubmit={searchData} style={{ maxWidth: "100%" }}>
             <InputContainer>
@@ -129,6 +129,7 @@ function Home({ data }) {
                 type="text"
                 name="pokename"
                 autoComplete="off"
+                placeholder="Search"
                 spellCheck="false"
                 data-testid="input-pokename"
                 onChange={(e) => setSearchName(e.target.value)}
