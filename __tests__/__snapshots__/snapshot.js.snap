@@ -1,7 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`renders details unchanged 1`] = `
+<p>
+  Something went wrong
+</p>
+`;
+
 exports[`renders homepage unchanged 1`] = `
 <p>
   Something went wrong
 </p>
+`;
+
+exports[`renders list unchanged 1`] = `
+<div
+  className="css-9hae16"
+>
+  <div
+    className="headroom-wrapper"
+    style={
+      Object {
+        "height": null,
+      }
+    }
+  >
+    <div
+      className="headroom headroom--unfixed"
+      style={
+        Object {
+          "MsTransform": "translate3D(0, 0, 0)",
+          "WebkitTransform": "translate3D(0, 0, 0)",
+          "left": 0,
+          "position": "relative",
+          "right": 0,
+          "top": 0,
+          "transform": "translate3D(0, 0, 0)",
+          "zIndex": 1,
+        }
+      }
+    >
+      <header
+        className="css-1jqswcl"
+      >
+        <div>
+          <h2
+            className="css-p9qu6"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+          >
+            Home
+          </h2>
+        </div>
+      </header>
+    </div>
+  </div>
+  <div
+    className="css-1rsklg3"
+  />
+  <div
+    className="css-1oskuwq"
+  >
+    <h1>
+      Try catching your first Pokémon
+    </h1>
+  </div>
+</div>
 `;
