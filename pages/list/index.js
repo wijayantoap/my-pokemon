@@ -83,7 +83,9 @@ function List() {
       )}
       {!loading && pokemonsData.length === 0 && (
         <Column>
-          <h1>Try catching your first Pokémon</h1>
+          <h1 style={{ textAlign: "center" }}>
+            Try catching your first Pokémon
+          </h1>
         </Column>
       )}
     </Wrapper>

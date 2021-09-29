@@ -23,7 +23,9 @@ const RadarChart = ({ data }) => {
 
   if (!data || data.length === 0) return null;
 
-  return <Radar data={dataConfig} options={options} />;
+  return (
+    <Radar data={dataConfig} options={options} style={{ maxWidth: "100%" }} />
+  );
 };
 
 export default RadarChart;
