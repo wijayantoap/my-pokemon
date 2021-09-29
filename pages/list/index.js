@@ -43,6 +43,15 @@ function List() {
     setLoading(false);
   }, []);
 
+  const handleRelease = (nickname) => {
+    let _pokemonsData = pokemonsData;
+    _pokemonsData = _pokemonsData.filter(
+      (pokemon) => pokemon.nickname != nickname
+    );
+    setPokemonsData(_pokemonsData);
+    localStorage.setItem("pokemons", JSON.stringify(_pokemonsData));
+  };
+
   return (
     <Wrapper>
       <Headroom>
@@ -61,6 +70,7 @@ function List() {
                 image={pokemon.image}
                 nickname={pokemon.nickname}
                 data={pokemon.data}
+                handleRelease={handleRelease}
               />
             </div>
           ))}
