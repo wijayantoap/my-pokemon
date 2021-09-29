@@ -3,7 +3,6 @@ import PokemonCard from "../../components/PokemonCard";
 import styled from "@emotion/styled";
 import Headroom from "react-headroom";
 import Title from "../../components/Title";
-import Link from "next/link";
 
 const Wrapper = styled.div`
   background: url(https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png);
@@ -48,11 +47,9 @@ function List() {
     <Wrapper>
       <Headroom>
         <HeaderContainer>
-          <Link href="/">
-            <div>
-              <Title title="Home" />
-            </div>
-          </Link>
+          <div>
+            <Title title="Home" href="/" />
+          </div>
         </HeaderContainer>
       </Headroom>
       <CardsContainer>

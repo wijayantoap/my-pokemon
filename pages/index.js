@@ -121,7 +121,7 @@ function Home({ data }) {
     <Wrapper>
       <Headroom>
         <HeaderContainer>
-          <Title title="Pokémon Search" />
+          <Title title="My Pokémon" href="/list" />
           <form onSubmit={searchData} style={{ maxWidth: "100%" }}>
             <InputContainer>
               <Input

@@ -7,7 +7,6 @@ import generateBgType from "../../utils/generateBgType";
 import Head from "next/head";
 import Headroom from "react-headroom";
 import Title from "../../components/Title";
-import Link from "next/link";
 import RadarChart from "../../components/RadarChart";
 
 const Wrapper = styled.div`
@@ -157,16 +156,12 @@ function Details({ data }) {
       <Wrapper bg={generateBgType(data?.pokemon?.types[0].type.name)}>
         <Headroom>
           <Row header>
-            <Link href="/">
-              <div>
-                <Title title="Home" />
-              </div>
-            </Link>
-            <Link href="/list">
-              <div>
-                <Title title="List" />
-              </div>
-            </Link>
+            <div>
+              <Title title="Home" href="/" />
+            </div>
+            <div>
+              <Title title="List" href="/list" />
+            </div>
           </Row>
         </Headroom>
         <Column>

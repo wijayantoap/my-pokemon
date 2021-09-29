@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import Link from "next/link";
 
 const StyledTitle = styled.h2`
   text-shadow: 2px 2px blue;
@@ -10,6 +11,10 @@ const StyledTitle = styled.h2`
   }
 `;
 
-export default function Title({ title }) {
-  return <StyledTitle>{title}</StyledTitle>;
+export default function Title({ title, href }) {
+  return (
+    <Link href={href}>
+      <StyledTitle>{title}</StyledTitle>
+    </Link>
+  );
 }
