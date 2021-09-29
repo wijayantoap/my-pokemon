@@ -27,6 +27,21 @@ const Name = styled.h3`
   text-transform: capitalize;
 `;
 
+const Action = styled.div`
+  background-color: #f2f2f2;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  color: gray;
+  text-align: center;
+
+  &:hover {
+    background-color: ${(props) => (props.remove ? "#E3350D" : "#9BCC50")};
+    color: white;
+  }
+`;
+
 const PokemonCard = ({ name, image, nickname }) => {
   const [owned, setOwned] = useState(0);
 
@@ -39,11 +54,19 @@ const PokemonCard = ({ name, image, nickname }) => {
   }, []);
 
   return (
-    <Link href={`/details/${name}`}>
+    <Link href={!nickname ? `/details/${name}` : "javascript:void(0);"}>
       <Card>
         <StyledImage alt={`img-${name}`} src={image} width="253" height="253" />
         <Name>{name}</Name>
         {nickname ? <p>{nickname}</p> : <p>Owned: {owned}</p>}
+        {nickname && (
+          <>
+            <Link href={`/details/${name}`}>
+              <Action>Visit</Action>
+            </Link>
+            <Action remove>Released</Action>
+          </>
+        )}
       </Card>
     </Link>
   );

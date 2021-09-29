@@ -7,7 +7,7 @@ import generateBgType from "../../utils/generateBgType";
 import Head from "next/head";
 import Headroom from "react-headroom";
 import Title from "../../components/Title";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Wrapper = styled.div`
   background: url(https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png);
@@ -79,7 +79,6 @@ function Details({ data }) {
   const [owned, setOwned] = useState(0);
   const [exists, setExists] = useState(false);
   const [catching, setCatching] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     let pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
@@ -114,6 +113,7 @@ function Details({ data }) {
     const poke = {
       name: data.pokemon.name,
       nickname,
+      image: data.pokemon.sprites.front_default,
     };
 
     let exists = pokemons.find((o) => o.nickname === nickname);
@@ -142,12 +142,16 @@ function Details({ data }) {
       <Wrapper bg={generateBgType(data?.pokemon?.types[0].type.name)}>
         <Headroom>
           <Row header>
-            <div onClick={() => router.back()}>
-              <Title title="Back" />
-            </div>
-            <div>
-              <Title title="List" />
-            </div>
+            <Link href="/">
+              <div>
+                <Title title="Home" />
+              </div>
+            </Link>
+            <Link href="/list">
+              <div>
+                <Title title="List" />
+              </div>
+            </Link>
           </Row>
         </Headroom>
         <Column>
