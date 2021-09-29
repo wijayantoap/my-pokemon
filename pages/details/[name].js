@@ -5,6 +5,9 @@ import POKEMON_NAME from "../../statics/pokemon-name";
 import Image from "next/image";
 import generateBgType from "../../utils/generateBgType";
 import Head from "next/head";
+import Headroom from "react-headroom";
+import Title from "../../components/Title";
+import { useRouter } from "next/router";
 
 const Wrapper = styled.div`
   background: url(https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png);
@@ -18,6 +21,7 @@ const Row = styled.div`
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-around;
+  background-color: ${(props) => (props.header ? "#313131" : "transparent")};
 `;
 
 const Column = styled.div`
@@ -75,6 +79,7 @@ function Details({ data }) {
   const [owned, setOwned] = useState(0);
   const [exists, setExists] = useState(false);
   const [catching, setCatching] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     let pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
@@ -135,6 +140,16 @@ function Details({ data }) {
         ></link>
       </Head>
       <Wrapper bg={generateBgType(data?.pokemon?.types[0].type.name)}>
+        <Headroom>
+          <Row header>
+            <div onClick={() => router.back()}>
+              <Title title="Back" />
+            </div>
+            <div>
+              <Title title="List" />
+            </div>
+          </Row>
+        </Headroom>
         <Column>
           <Image
             alt={`img-${data.pokemon.name}`}

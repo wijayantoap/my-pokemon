@@ -5,6 +5,7 @@ import PokemonCard from "../components/PokemonCard";
 import styled from "@emotion/styled";
 import Headroom from "react-headroom";
 import POKEMON_NAME from "../statics/pokemon-name";
+import Title from "../components/Title";
 
 const Wrapper = styled.div`
   background: url(https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png);
@@ -52,13 +53,6 @@ const Input = styled.input`
 
 const SearchButton = styled.input`
   margin-left: 20px;
-`;
-
-const Title = styled.h2`
-  text-shadow: 2px 2px blue;
-  font-family: "Press Start 2P";
-  color: yellow;
-  margin-right: 20px;
 `;
 
 const MoreButton = styled.button`
@@ -127,7 +121,7 @@ function Home({ data }) {
     <Wrapper>
       <Headroom>
         <HeaderContainer>
-          <Title>Pokémon Search</Title>
+          <Title title="Pokémon Search" />
           <form onSubmit={searchData} style={{ maxWidth: "100%" }}>
             <InputContainer>
               <Input
