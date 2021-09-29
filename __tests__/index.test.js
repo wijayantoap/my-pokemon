@@ -112,7 +112,7 @@ describe("Home", () => {
     });
 
     await waitFor(() => screen.getByText("Loading..."));
-    await new Promise((resolve) => setTimeout(resolve, 1500)); // wait for state update
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // wait for state update
 
     const ditto = screen.getByText("ditto");
     const _venusaur = screen.queryByText("venusaur");

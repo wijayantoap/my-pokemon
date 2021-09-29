@@ -129,7 +129,7 @@ function Details({ data }) {
       data: lastData,
     };
 
-    let exists = pokemons.find((o) => o.nickname === nickname);
+    let exists = pokemons.find((pokemon) => pokemon.nickname === nickname);
     if (!exists) {
       pokemons.push(poke);
       setShowNickname(false);
