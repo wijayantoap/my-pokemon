@@ -71,6 +71,7 @@ function List() {
                 nickname={pokemon.nickname}
                 data={pokemon.data}
                 handleRelease={handleRelease}
+                plain
               />
             </div>
           ))}

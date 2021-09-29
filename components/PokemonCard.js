@@ -45,7 +45,7 @@ const Action = styled.div`
   }
 `;
 
-const PokemonCard = ({ name, image, nickname, data, handleRelease }) => {
+const PokemonCard = ({ name, image, nickname, data, handleRelease, plain }) => {
   const [owned, setOwned] = useState(0);
 
   const release = (nickname) => {
@@ -73,8 +73,17 @@ const PokemonCard = ({ name, image, nickname, data, handleRelease }) => {
     setOwned(totalOwned);
   }, []);
 
+  const WithLink = ({ plain, children }) =>
+    plain ? (
+      children
+    ) : (
+      <Link href={!nickname ? `/details/${name}` : "javascript:void(0);"}>
+        {children}
+      </Link>
+    );
+
   return (
-    <Link href={!nickname ? `/details/${name}` : "javascript:void(0);"}>
+    <WithLink plain={plain}>
       <Card>
         <StyledImage alt={`img-${name}`} src={image} width="253" height="253" />
         <Name>{name}</Name>
@@ -91,7 +100,7 @@ const PokemonCard = ({ name, image, nickname, data, handleRelease }) => {
           </>
         )}
       </Card>
-    </Link>
+    </WithLink>
   );
 };
 
