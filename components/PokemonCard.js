@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
+import { memo, useEffect, useState } from "react";
 
 const Card = styled.div`
   margin: 20px;
@@ -26,14 +27,26 @@ const Name = styled.h3`
   text-transform: capitalize;
 `;
 
-export default function PokemonCard({ name, image }) {
+const PokemonCard = ({ name, image, nickname }) => {
+  const [owned, setOwned] = useState(0);
+
+  useEffect(() => {
+    let pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
+    const totalOwned = pokemons.filter(
+      (pokemon) => pokemon.name === name
+    ).length;
+    setOwned(totalOwned);
+  }, []);
+
   return (
     <Link href={`/details/${name}`}>
       <Card>
         <StyledImage alt={`img-${name}`} src={image} width="253" height="253" />
         <Name>{name}</Name>
-        <p>Owned: 0</p>
+        {nickname ? <p>{nickname}</p> : <p>Owned: {owned}</p>}
       </Card>
     </Link>
   );
-}
+};
+
+export default memo(PokemonCard);
