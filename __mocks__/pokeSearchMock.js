@@ -1,8 +1,8 @@
-import POKEMON_LIST from "../statics/pokemon-list";
+import POKEMON_NAME from "../statics/pokemon-name";
 
 const pokeSearchMock = {
   request: {
-    query: POKEMON_LIST,
+    query: POKEMON_NAME,
     variables: {
       name: "ditto",
     },

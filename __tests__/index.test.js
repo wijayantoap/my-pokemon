@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import TestRenderer from "react-test-renderer";
 import { MockedProvider } from "@apollo/client/testing";
 import React from "react";
 import Home from "../pages/index";
@@ -57,11 +56,15 @@ describe("Home", () => {
 
     await waitFor(() => screen.getByText("My Pokémon"));
 
-    const card = screen.getByText("venusaur");
-    expect(card).toBeTruthy();
+    const card1 = screen.getByText("venusaur");
+    const card2 = screen.getByText("charmander");
+    const card3 = screen.getByText("squirtle");
+    expect(card1).toBeTruthy();
+    expect(card2).toBeTruthy();
+    expect(card3).toBeTruthy();
   });
 
-  test("changin input text", async () => {
+  test("changing input text", async () => {
     await act(async () =>
       render(
         <MockedProvider mocks={[pokeMock]} addTypename={true}>
@@ -74,6 +77,8 @@ describe("Home", () => {
 
     fireEvent.change(input, { target: { value: "wartortle" } });
     expect(input.value).toBe("wartortle");
+
+    // delete input text
     fireEvent.change(input, { target: { value: "" } });
     expect(input.value).toBe("");
   });
@@ -87,6 +92,7 @@ describe("Home", () => {
       )
     );
 
+    // check the previous list
     const venusaur = screen.getByText("venusaur");
     expect(venusaur).toBeTruthy();
 
@@ -95,7 +101,52 @@ describe("Home", () => {
     expect(input).toBeTruthy();
     expect(search).toBeTruthy();
 
-    fireEvent.change(input, { target: { value: "ditto" } });
+    act(() => {
+      fireEvent.change(input, { target: { value: "ditto" } });
+    });
+
     expect(input.value).toBe("ditto");
+
+    act(() => {
+      fireEvent.click(search);
+    });
+
+    await waitFor(() => screen.getByText("Loading..."));
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // wait for state update
+
+    const ditto = screen.getByText("ditto");
+    const _venusaur = screen.queryByText("venusaur");
+    expect(ditto).toBeTruthy(); // check the search result
+    expect(_venusaur).toBeFalsy(); // check if the previous list is removed
+  });
+
+  it("should refetch", async () => {
+    await act(async () =>
+      render(
+        <MockedProvider mocks={[pokeMock]} addTypename={true}>
+          <Home data={pokeMock.result.data} />
+        </MockedProvider>
+      )
+    );
+
+    // check the previous list
+    const venusaur = screen.getByText("venusaur");
+    expect(venusaur).toBeTruthy();
+
+    const input = screen.getByTestId("input-pokename");
+    const search = screen.getByText("Search");
+    expect(input).toBeTruthy();
+    expect(search).toBeTruthy();
+
+    act(() => {
+      fireEvent.click(search);
+    });
+
+    await waitFor(() => screen.getByText("Loading..."));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // check the latest list
+    const ivysaur = screen.getByText("ivysaur");
+    expect(ivysaur).toBeTruthy();
   });
 });

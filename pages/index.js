@@ -74,6 +74,7 @@ function Home({ data }) {
   const [pokemonsData, setPokemonsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [searchName, setSearchName] = useState("");
 
   useEffect(() => {
     setOffset(data?.pokemons.nextOffset);
@@ -97,13 +98,13 @@ function Home({ data }) {
   const searchData = async (e) => {
     e.preventDefault();
     setLoading(true);
-    if (!e.target.pokename.value) {
+    if (!searchName) {
       getData();
       return;
     }
     const { data } = await client.query({
       query: POKEMON_NAME,
-      variables: { name: e.target.pokename.value.toLowerCase() },
+      variables: { name: searchName },
     });
 
     setOffset(0);
@@ -130,6 +131,7 @@ function Home({ data }) {
                 autoComplete="off"
                 spellCheck="false"
                 data-testid="input-pokename"
+                onChange={(e) => setSearchName(e.target.value)}
               ></Input>
               <SearchButton
                 type="submit"
