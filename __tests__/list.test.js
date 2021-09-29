@@ -16,18 +16,19 @@ jest.mock("react-chartjs-2", () => ({
   Radar: () => null,
 }));
 
+class LocalStorageMock {
+  constructor() {
+    this.store = {};
+  }
+
+  setItem(key, value) {
+    this.store[key] = String(value);
+  }
+}
+
+global.localStorage = new LocalStorageMock();
+
 describe("List", () => {
-  beforeAll(() => {
-    let store = {};
-    const mockLocalStorage = {
-      setItem: (key, value) => {
-        store[key] = `${value}`;
-      },
-    };
-
-    spyOn(localStorage, "setItem").and.callFake(mockLocalStorage.setItem);
-  });
-
   it("should render the page", async () => {
     await act(async () => render(<List />));
 

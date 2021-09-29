@@ -60,7 +60,13 @@ exports[`renders list unchanged 1`] = `
   <div
     className="css-1oskuwq"
   >
-    <h1>
+    <h1
+      style={
+        Object {
+          "textAlign": "center",
+        }
+      }
+    >
       Try catching your first Pokémon
     </h1>
   </div>
