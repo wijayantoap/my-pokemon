@@ -2,9 +2,11 @@ import styled from "@emotion/styled";
 import Image from "next/image";
 import Link from "next/link";
 import { memo, useEffect, useState } from "react";
-import RadarChart from "./RadarChart";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import dynamic from "next/dynamic";
+
+const RadarChart = dynamic(() => import("./RadarChart"));
 
 const Card = styled.div`
   margin: 20px;
