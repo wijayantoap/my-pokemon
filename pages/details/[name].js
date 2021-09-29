@@ -75,6 +75,7 @@ const Name = styled.h1`
 
 function Details({ data }) {
   const [showNickname, setShowNickname] = useState(false);
+  const [nickname, setNickname] = useState("");
   const [lastNickname, setLastNickname] = useState("");
   const [lastData, setLastData] = useState([]);
   const [failed, setFailed] = useState(false);
@@ -118,7 +119,6 @@ function Details({ data }) {
 
   const saveNickname = (e) => {
     e.preventDefault();
-    const nickname = e.target.pokename.value;
     if (nickname === "") return;
 
     let pokemons = JSON.parse(localStorage.getItem("pokemons") || "[]");
@@ -195,6 +195,7 @@ function Details({ data }) {
                 autoComplete="off"
                 spellCheck="false"
                 maxLength="10"
+                onChange={(e) => setNickname(e.target.value)}
               />
               <input type="submit" value="Save" id="save" />
             </form>
@@ -204,13 +205,15 @@ function Details({ data }) {
           <h2>Type</h2>
           <Row>
             {data.pokemon.types.map(({ type }) => (
-              <Types bg={generateBgType(type.name)}>{type.name}</Types>
+              <Types bg={generateBgType(type.name)} key={type.name}>
+                {type.name}
+              </Types>
             ))}
           </Row>
           <h2>Moves</h2>
           <Row>
             {data.pokemon.moves.map(({ move }) => (
-              <Moves>{move.name}</Moves>
+              <Moves key={move.name}>{move.name}</Moves>
             ))}
           </Row>
         </Column>
