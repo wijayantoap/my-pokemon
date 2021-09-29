@@ -76,8 +76,8 @@ function Home({ data }) {
   const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
-    setOffset(data.pokemons.nextOffset);
-    setPokemonsData(data.pokemons.results);
+    setOffset(data?.pokemons.nextOffset);
+    setPokemonsData(data?.pokemons.results);
     setLoading(false);
   }, [data]);
 
@@ -120,7 +120,7 @@ function Home({ data }) {
   return (
     <Wrapper>
       <Headroom>
-        <HeaderContainer>
+        <HeaderContainer role="header">
           <Title title="My Pokémon" href="/list" />
           <form onSubmit={searchData} style={{ maxWidth: "100%" }}>
             <InputContainer>
@@ -129,6 +129,7 @@ function Home({ data }) {
                 name="pokename"
                 autoComplete="off"
                 spellCheck="false"
+                data-testid="input-pokename"
               ></Input>
               <SearchButton
                 type="submit"

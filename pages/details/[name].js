@@ -194,6 +194,7 @@ function Details({ data }) {
                 name="pokename"
                 autoComplete="off"
                 spellCheck="false"
+                maxLength="10"
               />
               <input type="submit" value="Save" id="save" />
             </form>
